@@ -46,11 +46,11 @@ class ListingController extends Controller
        $listings->description = $request->input('description');
        if ($request->hasFile('image'))
        {
-        $file = $request->file('image');
-        $extension = $file->getClientOriginalExtension();
-        $filename = time().'.'.$extension;
-        $file->move('images/',$filename);
-        $listings->image = $filename;
+        $image = $request->file('image');
+        $ext = $image->extension();
+        $file = time().'.'.$ext;
+        $image->storeAs('public/buku',$file);
+        $listings->image = $file;
        }
        $listings->save();
        return redirect()->back()->with('status','Book Added Successfully.');
